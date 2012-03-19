@@ -13,13 +13,13 @@ class Deck
 
   def self.card_suit(card)
     if card.between?(1,13)
-      "\u2663"
+      [0x2663].pack('U*')
     elsif card.between?(14,26)
-      "\u2666"
+      [0x2666].pack('U*')
     elsif card.between?(27,39)
-      "\u2665"
+      [0x2665].pack('U*')
     elsif card.between?(40,52)
-      "\u2660"
+      [0x2660].pack('U*')
     else
       'Joker'
     end

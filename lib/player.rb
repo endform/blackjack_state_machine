@@ -58,7 +58,7 @@ class Player
     puts 'Would you like to (h)it or (s)tand?'
     command = nil
     while command.nil? do
-      command = read_cli[0].downcase
+      command = (read_cli.chars.first || "").downcase # could be cleaner in 1.9.2
       case command
       when 'h'
         command = :player_hit
@@ -97,7 +97,7 @@ class Player
   def handle_finish_round
     command = nil
     while command.nil? do
-      command = read_cli[0].downcase
+      command = (read_cli.chars.first || "").downcase
       case command
       when 'c'
         command = :player_continue
