@@ -18,6 +18,10 @@ class BlackjackStateMachine
       puts "Which gets a score of #{game.player.hand.optimal_score}"
     }
 
+    after_transition :on => :dealt, :do => lambda { |game|
+      puts "Dealer starts with hand #{game.dealer.hand}"
+    }
+
     # events
     event :player_placed_bet do
       transition :wagering => :dealing
