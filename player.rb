@@ -16,13 +16,14 @@ class Player
   end
 
   def withdraw_money
-    puts 'How much money would you like to withdraw?'
+    puts 'You are out of chips, how much money would you like to withdraw?'
     amount = 0
     while amount === 0 do
       amount = read_cli.to_i
       if amount == 0
         puts 'Please enter a positive number value'
       else
+        @chips += amount
         puts "Your childs college fund won't miss this"
       end
     end
@@ -53,7 +54,7 @@ class Player
   end
 
   def hit_or_stand
-    puts "your hand: #{@hand}"
+    puts "Your hand: #{@hand}"
     puts 'Would you like to (h)it or (s)tand?'
     command = nil
     while command.nil? do
@@ -72,18 +73,41 @@ class Player
   end
 
   def handle_loss
-    puts 'So sorry, would you like to: (r)age quit or (d)eal with it'
+    puts 'So sorry, would you like to: rage (q)uit or (c)ontinue'
+    # we've already taken the chips out of the players pile when we wagered
+
+    handle_finish_round
+  end
+
+  def handle_win
+    puts 'Yay! You won! Do you want to (c)ontinue or (q)uit?'
+    @chips += @bet * 2
+    @bet = 0
+
+    handle_finish_round
+  end
+
+  def handle_push
+    puts 'Meh, you got your money back, do you want to (c)ontinue or (q)uit?'
+    @chips += @bet
+    @bet = 0
+    handle_finish_round
+  end
+
+  def handle_finish_round
     command = nil
     while command.nil? do
       command = read_cli[0].downcase
       case command
-      when 'r'
-        command = :rage_quit
-      when 'd'
-        command = :player_wants_more
+      when 'c'
+        command = :player_continue
+      when 'q'
+        command = :player_quit
       else
-        puts 'Please enter r to rage quit or d to deal with it and continue'
+        puts 'Please enter c to continue or q to quit'
+        command = nil
       end
     end
+    command
   end
 end

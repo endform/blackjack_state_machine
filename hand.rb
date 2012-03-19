@@ -7,24 +7,32 @@ class Hand
       @cards << card
   end
 
-  # we only programmatically need to generate the min_count of a hand
-  # this is for the loss check
-  def min_count
+  def min_score
     @cards.inject(0) { |count, card|
-      count += (card % 13)
+      count + Hand.min_card_val(card)
     }
   end
 
-  def max_non_bust_count
-    countable = @cards.map { |card| card % 13 }
-    aces = countable.select { |card| card == 1 }.length
-    
+  # because of the variability of the soft and hard scores, this is more
+  # non-trivial than it could be.
+  def optimal_score
+    return if bust?
+    countable = @cards.map { |card| Hand.max_card_val(card) }
+    high_aces = countable.select { |card| card == 11 }.length
+
+    sum = countable.inject(0) { |sum, card_val| sum + card_val }
+    return sum if sum <= 21
+    high_aces.times {
+      sum -= 10
+      break if sum <= 21
+    }
+    sum
   end
 
   def black_jack?
     false if @cards.length > 2
-    countable = @cards.map { |card| card % 13 }.sort
-    if countable[0] == 1 && countable[1] > 9
+    countable = @cards.map { |card| Hand.max_card_val(card) }.sort
+    if countable[0] + countable[1] == 21
       true
     else
       false
@@ -32,12 +40,32 @@ class Hand
   end
 
   def bust?
-    min_count > 21
+    min_score > 21
   end
 
   def to_s
     @cards.map { |card|
-      Deck.card_name(card)
-    }.join(', ')
+      Deck.pretty_card(card)
+    }.join(' , ')
+  end
+
+  def dealer_to_s
+    "#{Deck.pretty_card(@cards.first)} , ?"
+  end
+
+  def self.min_card_val(card)
+    card_val = card % 13
+    card_val = 10 if card_val > 10 || card_val == 0
+    card_val
+  end
+
+  def self.max_card_val(card)
+    card_val = card % 13
+    if card_val == 1
+      card_val = 11
+    elsif card_val > 10 || card_val == 0
+      card_val = 10
+    end
+    card_val
   end
 end

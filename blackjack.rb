@@ -14,8 +14,9 @@ class Blackjack
   end
 
   state_machine :state, :initial => :wagering do
-    after_transition :on => :player_hit, :do => lambda { |game|
-      game.dealer.hit_player
+    after_transition :on => :player_stood, :do => lambda { |game|
+      puts "Player stood with hand #{game.player.hand}"
+      puts "Which gets a score of #{game.player.hand.optimal_score}"
     }
 
     # events
@@ -29,6 +30,7 @@ class Blackjack
 
     event :player_hit do
       transition :player_turn => :player_turn, :unless => lambda { |game|
+        game.dealer.hit_player
         game.player.hand.bust?
       }
       transition :player_turn => :loss
@@ -38,13 +40,17 @@ class Blackjack
       transition :player_turn => :dealer_turn
     end
 
-    event :dealer_hit do
-      transition :dealer_turn => :dealer_turn, :if => lambda {|x| true}
-      transition :dealer_turn => :win
-    end
-
-    event :dealer_stood do
-      transition :dealer_turn => :win, :if => lambda {|x| true}
+    event :dealer_finished do
+      transition :dealer_turn => :win, :if => lambda { |game|
+        dealer_score = game.dealer.hand.optimal_score
+        player_score = game.player.hand.optimal_score
+        game.dealer.hand.bust? || dealer_score < player_score
+      }
+      transition :dealer_turn => :push, :if => lambda { |game|
+        dealer_score = game.dealer.hand.optimal_score
+        player_score = game.player.hand.optimal_score
+        dealer_score == player_score
+      }
       transition :dealer_turn => :loss
     end
 
@@ -52,34 +58,34 @@ class Blackjack
       transition :atm => :wagering
     end
 
-    event :player_wants_more do
+    event :player_continue do
+      transition [:win, :push] => :wagering
       transition :loss => :wagering, :if => lambda { |game|
         game.player.chips > 0
       }
       transition :loss => :atm
     end
 
-    event :rage_quit do
-      transition :loss => :quit
+    event :player_quit do
+      transition [:win, :push, :loss] => :quit
     end
 
     # states
     state :atm do
       def command
-        @player.withdraw_money
+        player.withdraw_money
       end
     end
 
     state :dealing do
       def command
-        @dealer.deal
-        :dealt
+        dealer.deal
       end
     end
 
     state :wagering do
       def command
-        @player.wager
+        player.wager
       end
     end
 
@@ -91,6 +97,7 @@ class Blackjack
 
     state :dealer_turn do
       def command
+        dealer.dealer_play
       end
     end
 
@@ -102,6 +109,13 @@ class Blackjack
 
     state :win do
       def command
+        player.handle_win
+      end
+    end
+
+    state :push do
+      def command
+        player.handle_push
       end
     end
 

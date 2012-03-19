@@ -25,8 +25,10 @@ class Deck
     end
   end
 
-  def self.card_name(card)
-    name = @@names[card % 13] || card.to_s
+  def self.pretty_card(card)
+    card_ordinal = card % 13
+    card_ordinal = 13 if card_ordinal == 0
+    name = @@names[card_ordinal] || (card_ordinal).to_s
     of = card_suit(card)
     "#{name} of #{of}"
   end
