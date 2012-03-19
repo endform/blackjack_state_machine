@@ -47,12 +47,16 @@ class BlackjackStateMachine
       transition :dealer_turn => :win, :if => lambda { |game|
         dealer_score = game.dealer.hand.optimal_score
         player_score = game.player.hand.optimal_score
-        game.dealer.hand.bust? || dealer_score < player_score
+        # you win if...
+        # you're not busted AND (dealer busted or dealer score is less than yours)
+        !player_score.nil? && (dealer_score.nil? || dealer_score < player_score)
       }
       transition :dealer_turn => :push, :if => lambda { |game|
         dealer_score = game.dealer.hand.optimal_score
         player_score = game.player.hand.optimal_score
-        dealer_score == player_score
+        # it's a push if
+        # you're not busted and the scores are equal
+        !player_score.nil? || dealer_score == player_score
       }
       transition :dealer_turn => :loss
     end
