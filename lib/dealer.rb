@@ -1,5 +1,5 @@
-require './deck'
-require './hand'
+require 'deck'
+require 'hand'
 
 class Dealer
   attr_reader :deck, :hand

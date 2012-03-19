@@ -1,10 +1,9 @@
-require 'rubygems'
 require 'state_machine'
 
-require './player'
-require './dealer'
+require 'player'
+require 'dealer'
 
-class Blackjack
+class BlackjackStateMachine
   attr_accessor :player, :dealer
 
   def initialize
@@ -129,10 +128,10 @@ end
 
 #StateMachine::Machine.draw('Blackjack')
 
-game = Blackjack.new
+# game = BlackjackStateMachine.new
 
-while true do
-  puts game.state
-  event = game.command
-  game.fire_state_event(event) unless event.nil?
-end
+# while true do
+#   puts game.state
+#   event = game.command
+#   game.fire_state_event(event) unless event.nil?
+# end

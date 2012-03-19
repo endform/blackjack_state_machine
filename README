@@ -1,0 +1,11 @@
+This is a little demo of how you can use state_machine to write simple
+interactive applications. Included in the repo is Blackjack_state_machine.png
+which is a graph that represents the machine with all states and events.
+
+The main loop is pleasingly concise. Each state offers a command method that
+causes the program to advance the underlying state and return a symbol for
+the next even that should fire. The different agents, the dealer and the
+player classes, have methods on them which sometimes compute the next event
+programatically but some require user input.
+
+The tests are under the spec folder.
