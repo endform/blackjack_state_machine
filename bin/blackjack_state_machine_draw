@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'blackjack_state_machine'
+
+StateMachine::Machine.draw('BlackjackStateMachine')
+puts 'new png file output'

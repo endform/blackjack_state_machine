@@ -7,6 +7,8 @@ Gem::Specification.new do |s|
   s.email       = 'endform@gmail.com'
   s.files       = Dir['lib/**/*']
   s.homepage    = 'http://github.com/endform/blackjack_state_machine'
+  s.executables << 'blackjack_state_machine'
+  s.executables << 'blackjack_state_machine_draw'
   s.add_dependency 'state_machine', '~> 1.1'
   s.add_development_dependency 'rspec', '~> 2.7'
 end

@@ -125,13 +125,3 @@ class BlackjackStateMachine
     end
   end
 end
-
-#StateMachine::Machine.draw('Blackjack')
-
-# game = BlackjackStateMachine.new
-
-# while true do
-#   puts game.state
-#   event = game.command
-#   game.fire_state_event(event) unless event.nil?
-# end
