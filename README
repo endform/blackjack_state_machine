@@ -16,3 +16,7 @@ http://en.wikipedia.org/wiki/Blackjack
 To install please clone this repo and then run
 gem build blackjack_state_machine.gemspec
 gem install blackjack_state_machine-0.0.1.gem
+
+To run the tests install rspec and then just run, note they rely on some
+1.9.2 specific features. The actual program should function just fine
+rspec
