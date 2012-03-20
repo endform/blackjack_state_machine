@@ -36,8 +36,9 @@ class Player
     while amount == 0 do
       amount = read_cli.to_i
 
-      if amount == 0
+      if amount <= 0
         puts 'Please enter a positive number value'
+        amount = 0
       elsif amount > 100
         puts 'Maximum bet is 100 chips'
         amount = 0
