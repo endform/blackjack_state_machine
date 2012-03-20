@@ -28,10 +28,14 @@ class Dealer
     @player.hand << card
   end
 
+  def should_hit?
+    !@hand.bust? && @hand.optimal_score < 17
+  end
+
   def dealer_play
     puts "dealer starts with hand: #{@hand}"
     # optimal is also losing when there is no choice
-    while @hand.optimal_score < 17
+    while should_hit?
       drawn = @deck.pop
       @hand << drawn
       puts "dealer hits and draws #{Deck.pretty_card(drawn)}"
