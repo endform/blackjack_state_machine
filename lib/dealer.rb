@@ -14,6 +14,7 @@ class Dealer
     @hand = Hand.new
     @hand << @deck.pop
     @hand << @deck.pop
+    puts "Dealer starts with hand #{@hand}"
 
     @player.hand = Hand.new
     @player.hand << @deck.pop

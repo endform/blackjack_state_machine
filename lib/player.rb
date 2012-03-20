@@ -64,6 +64,8 @@ class Player
       when 'h'
         command = :player_hit
       when 's'
+        puts "Player stood with hand #{@hand}"
+        puts "Which gets a score of #{@hand.optimal_score}"
         command = :player_stood
       else
         puts 'Please enter s to stand or h to hit'

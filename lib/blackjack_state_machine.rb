@@ -12,16 +12,30 @@ class BlackjackStateMachine
     super() #initializes states
   end
 
+  def player_won?
+    dealer_score = dealer.hand.optimal_score
+    player_score = player.hand.optimal_score
+    if player_score.nil? # nil indicates a bust
+      false
+    elsif dealer_score.nil?
+      true
+    elsif dealer_score < player_score
+      true
+    elsif dealer_score == player_score &&
+          player.hand.blackjack? &&
+          !dealer.hand.blackjack?
+      true
+    end
+  end
+
+  def player_push?
+    dealer_score = dealer.hand.optimal_score
+    player_score = player.hand.optimal_score
+    # you're not busted and the scores are equal
+    !player_score.nil? && dealer_score == player_score && !dealer.hand.blackjack?
+  end
+
   state_machine :state, :initial => :wagering do
-    after_transition :on => :player_stood, :do => lambda { |game|
-      puts "Player stood with hand #{game.player.hand}"
-      puts "Which gets a score of #{game.player.hand.optimal_score}"
-    }
-
-    after_transition :on => :dealt, :do => lambda { |game|
-      puts "Dealer starts with hand #{game.dealer.hand}"
-    }
-
     # events
     event :player_placed_bet do
       transition :wagering => :dealing
@@ -45,18 +59,10 @@ class BlackjackStateMachine
 
     event :dealer_finished do
       transition :dealer_turn => :win, :if => lambda { |game|
-        dealer_score = game.dealer.hand.optimal_score
-        player_score = game.player.hand.optimal_score
-        # you win if...
-        # you're not busted AND (dealer busted or dealer score is less than yours)
-        !player_score.nil? && (dealer_score.nil? || dealer_score < player_score)
+        game.player_won?
       }
       transition :dealer_turn => :push, :if => lambda { |game|
-        dealer_score = game.dealer.hand.optimal_score
-        player_score = game.player.hand.optimal_score
-        # it's a push if
-        # you're not busted and the scores are equal
-        !player_score.nil? || dealer_score == player_score
+        game.player_push?
       }
       transition :dealer_turn => :loss
     end
