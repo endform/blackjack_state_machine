@@ -85,7 +85,7 @@ class Player
   def handle_win
     puts 'Yay! You won! Do you want to (c)ontinue or (q)uit?'
     if @hand.blackjack? # you win more w/ a blackjack
-      @chips += (@bet * 1.5).to_i
+      @chips += (@bet + (@bet * 1.5))
     else
       @chips += @bet * 2
     end

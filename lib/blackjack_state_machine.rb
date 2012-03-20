@@ -25,6 +25,8 @@ class BlackjackStateMachine
           player.hand.blackjack? &&
           !dealer.hand.blackjack?
       true
+    else
+      false
     end
   end
 
@@ -32,7 +34,15 @@ class BlackjackStateMachine
     dealer_score = dealer.hand.optimal_score
     player_score = player.hand.optimal_score
     # you're not busted and the scores are equal
-    !player_score.nil? && dealer_score == player_score && !dealer.hand.blackjack?
+    if player_score.nil?
+      false
+    elsif dealer.hand.blackjack? && player.hand.blackjack?
+      true
+    elsif dealer_score == player_score && !dealer.hand.blackjack?
+      true
+    else
+      false
+    end
   end
 
   state_machine :state, :initial => :wagering do

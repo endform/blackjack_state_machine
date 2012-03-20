@@ -77,6 +77,7 @@ describe Player do
   it 'should pay out 3:2 for blackjack wins' do
     player = Player.new
     player.instance_variable_set(:@bet, 100)
+    player.instance_variable_set(:@chips, 400)
     player.hand = Hand.new
     player.hand << 1
     player.hand << 11
