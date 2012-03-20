@@ -29,7 +29,7 @@ class Hand
     sum
   end
 
-  def black_jack?
+  def blackjack?
     false if @cards.length > 2
     countable = @cards.map { |card| Hand.max_card_val(card) }.sort
     if countable[0] + countable[1] == 21
