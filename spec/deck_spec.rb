@@ -33,7 +33,8 @@ describe Deck do
 
   it 'should have 51 cards after popping once' do
     deck = Deck.new
-    deck.pop
+    card = deck.pop
     deck.instance_variable_get(:@cards).length.should == 51
+    deck.instance_variable_get(:@cards).index(card).should == nil
   end
 end
