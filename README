@@ -12,3 +12,7 @@ The tests are under the spec folder.
 
 I gleaned the rules for blackjack from this page
 http://en.wikipedia.org/wiki/Blackjack
+
+To install please clone this repo and then run
+gem build blackjack_state_machine.gemspec
+gem install blackjack_state_machine-0.0.1.gem
