@@ -13,8 +13,7 @@ class Hand
     }
   end
 
-  # because of the variability of the soft and hard scores, this is more
-  # non-trivial than it could be.
+  # exists because of hard and soft scores
   def optimal_score
     return if bust?
     countable = @cards.map { |card| Hand.max_card_val(card) }
