@@ -1,4 +1,12 @@
 class Deck
+  def initialize
+    @cards = (1..52).to_a.shuffle
+  end
+
+  def pop
+    @cards.pop
+  end
+
   # the suits of the deck are:
   # clubs    1..13
   # diamonds 14..26
@@ -31,13 +39,5 @@ class Deck
     name = @@names[card_ordinal] || (card_ordinal).to_s
     of = card_suit(card)
     "#{name} of #{of}"
-  end
-
-  def initialize
-    @cards = (1..52).to_a.shuffle
-  end
-
-  def pop
-    @cards.pop
   end
 end

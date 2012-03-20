@@ -9,3 +9,6 @@ player classes, have methods on them which sometimes compute the next event
 programatically but some require user input.
 
 The tests are under the spec folder.
+
+I gleaned the rules for blackjack from this page
+http://en.wikipedia.org/wiki/Blackjack

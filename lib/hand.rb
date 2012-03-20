@@ -48,10 +48,6 @@ class Hand
     }.join(' , ')
   end
 
-  def dealer_to_s
-    "#{Deck.pretty_card(@cards.first)} , ?"
-  end
-
   def self.min_card_val(card)
     card_val = card % 13
     card_val = 10 if card_val > 10 || card_val == 0
