@@ -19,3 +19,7 @@ gem install blackjack_state_machine-0.0.1.gem
 
 To run the tests install rspec and then just run 'rspec', note they rely on some
 1.9.2 specific features. The actual program should function just fine
+
+To run the game itself if your path is setup correctly you can just enter
+blackjack_state_machine on the command line. If not, cd into
+this directory and run ruby -Ilib bin/blackjack_state_machine
